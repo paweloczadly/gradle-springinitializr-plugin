@@ -51,3 +51,9 @@ codenarc {
     toolVersion = libs.versions.codenarc.get()
     configFile = file "${rootDir}/config/codenarc/rules.groovy"
 }
+
+sourceSets {
+    functionalTest {
+        resources.srcDir file('src/main/resources')
+    }
+}
