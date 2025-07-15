@@ -16,9 +16,11 @@ class SpringInitializrPluginSpec extends Specification {
     private final String initSpringBootProjectTaskName = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_NAME
     private final String initializrUrl = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_INITIALIZRURL_DEFAULT
     private final String metadataEndpoint = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_METADATAENDPOINT_DEFAULT
+    private final String extract = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_EXTRACT_DEFAULT
 
     private final String customInitializrUrl = 'https://start.spring.oczadly.io'
     private final String customMetadataEndpoint = '/metadata/spring'
+    private final String customExtract = 'false'
 
     def setup() {
         project = ProjectBuilder.builder().build()
@@ -58,5 +60,19 @@ class SpringInitializrPluginSpec extends Specification {
 
         expect:
         task.metadataEndpoint.get() == customMetadataEndpoint
+    }
+
+    def 'initSpringBootProject task uses default extract if not provided'() {
+        expect:
+        task.extract.get() == extract
+    }
+
+    def 'initSpringBootProject task uses custom extract from property'() {
+        given:
+        project.extensions.extraProperties.set 'extract', customExtract
+        task.extract.set project.property('extract')
+
+        expect:
+        task.extract.get() == customExtract
     }
 }

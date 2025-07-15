@@ -34,6 +34,7 @@ class SpringInitializrPlugin implements Plugin<Project> {
 
         String initializrUrlDefault = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_INITIALIZRURL_DEFAULT
         String metadataEndpointDefault = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_METADATAENDPOINT_DEFAULT
+        String extractDefault = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_EXTRACT_DEFAULT
 
         TaskProvider<InitSpringBootProjectTask> taskProvider = project.tasks.register taskName, InitSpringBootProjectTask
         taskProvider.configure { task ->
@@ -48,6 +49,7 @@ class SpringInitializrPlugin implements Plugin<Project> {
             // convention:
             task.initializrUrl.convention initializrUrlDefault
             task.metadataEndpoint.convention metadataEndpointDefault
+            task.extract.convention extractDefault
         }
     }
 }

@@ -15,4 +15,10 @@ class InputValidator {
             throw new InvalidUserDataException("Unsupported $label: '$value'. Supported options: ${supportedValues.toSorted()}")
         }
     }
+
+    static void validateSupportedExtractValues(String value) {
+        if (value != 'true' && value != 'false') {
+            throw new InvalidUserDataException("Invalid extract value: '$value'. Supported options: true, false")
+        }
+    }
 }

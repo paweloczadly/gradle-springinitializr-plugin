@@ -5,6 +5,7 @@ import io.oczadly.internal.utils.InputValidator
 import io.oczadly.internal.config.PluginConfig
 import io.oczadly.internal.config.PluginConstants
 import io.oczadly.internal.utils.UrlUtils
+import io.oczadly.internal.utils.ZipUtils
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
@@ -12,6 +13,7 @@ import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 
 @CacheableTask
@@ -24,6 +26,9 @@ abstract class InitSpringBootProjectTask extends DefaultTask {
     abstract Property<String> getMetadataEndpoint()
 
     @Input
+    abstract Property<String> getExtract()
+
+    @Input
     @Optional
     abstract Property<String> getProjectType()
 
@@ -33,6 +38,16 @@ abstract class InitSpringBootProjectTask extends DefaultTask {
 
     @OutputDirectory
     abstract DirectoryProperty getOutputDir()
+
+    @OutputFile
+    File getOutputZipFile() {
+        return new File(outputDir.get().asFile, PluginConfig.getOrThrow(PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_ZIPFILE_DEFAULT))
+    }
+
+    @OutputDirectory
+    File getUnzipDir() {
+        return new File(outputDir.get().asFile, PluginConfig.getOrThrow(PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_PROJECTNAME_DEFAULT))
+    }
 
     @TaskAction
     void download() {
@@ -47,23 +62,27 @@ abstract class InitSpringBootProjectTask extends DefaultTask {
         InputValidator.validateSupportedValues projectTypeValue, supportedProjectTypes, 'project type'
         InputValidator.validateSupportedValues languageValue, supportedLanguages, 'language'
 
-        LinkedHashMap<String, String> queryParams = [
-                'type'    : projectTypeValue,
-                'language': languageValue,
-        ]
+        LinkedHashMap<String, String> queryParams = ['type'    : projectTypeValue,
+                                                     'language': languageValue,]
         String query = UrlUtils.toQueryString queryParams
         URL url = new URI("${initializrUrl.get()}/starter.zip?$query").toURL()
 
         File generateDir = outputDir.get().asFile
         generateDir.mkdirs()
-        File projectZip = new File(generateDir, 'starter.zip')
+        File projectZip = new File(generateDir, PluginConfig.getOrThrow(PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_ZIPFILE_DEFAULT))
 
         logger.lifecycle 'Downloading Spring Boot starter project...'
 
-        url.withInputStream { input ->
-            projectZip.withOutputStream { output -> output << input }
+        url.withInputStream { input -> projectZip.withOutputStream { output -> output << input }
         }
 
         logger.lifecycle "Project downloaded to: ${projectZip.absolutePath}"
+
+        if (extract.getOrNull().toBoolean()) {
+            String extractedDirAbsolutePath = "${generateDir.absolutePath}/${PluginConfig.getOrThrow(PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_PROJECTNAME_DEFAULT)}"
+            ZipUtils.unzipToDir projectZip, new File(extractedDirAbsolutePath)
+
+            logger.lifecycle "Project extracted to: $extractedDirAbsolutePath"
+        }
     }
 }

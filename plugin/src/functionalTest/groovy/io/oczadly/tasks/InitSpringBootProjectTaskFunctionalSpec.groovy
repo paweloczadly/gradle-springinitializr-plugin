@@ -2,8 +2,8 @@ package io.oczadly.tasks
 
 import io.oczadly.internal.config.PluginConfig
 import io.oczadly.internal.config.PluginConstants
+import io.oczadly.testsupport.FilesTestUtils
 import io.oczadly.testsupport.GradleTestRunner
-import io.oczadly.testsupport.ZipTestUtils
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 import spock.lang.TempDir
@@ -34,7 +34,6 @@ plugins {
     def 'initSpringBootProject uses default parameters when not specified'() {
         given:
         def generatedProjectDir = new File(testProjectDir, outputDir)
-        def zipFile = new File(generatedProjectDir, zipName)
         def unzipDir = new File(generatedProjectDir, unzipDirName)
         def args = GradleTestRunner.asListOfStrings([
                 initSpringBootProjectTaskName,
@@ -51,20 +50,13 @@ plugins {
         result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
 
         and:
-        ZipTestUtils.zipFileExistsAndNotEmpty zipFile
-
-        when:
-        ZipTestUtils.unzipToDir zipFile, unzipDir
-
-        then:
-        ZipTestUtils.projectFilesExist unzipDir, 'build.gradle', 'src/main/java/com/example/demo/DemoApplication.java'
+        FilesTestUtils.projectFilesExist unzipDir, 'build.gradle', 'src/main/java/com/example/demo/DemoApplication.java'
     }
 
     @Unroll
     def 'initSpringBootProject downloads project with type=#projectType and language=#language'() {
         given:
         def generatedProjectDir = new File(testProjectDir, outputDir)
-        def zipFile = new File(generatedProjectDir, zipName)
         def unzipDir = new File(generatedProjectDir, unzipDirName)
         def args = GradleTestRunner.asListOfStrings([
                 initSpringBootProjectTaskName,
@@ -83,13 +75,7 @@ plugins {
         result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
 
         and:
-        ZipTestUtils.zipFileExistsAndNotEmpty zipFile
-
-        when:
-        ZipTestUtils.unzipToDir zipFile, unzipDir
-
-        then:
-        ZipTestUtils.projectFilesExist unzipDir, expectedBuildFile, expectedSourceFile
+        FilesTestUtils.projectFilesExist unzipDir, expectedBuildFile, expectedSourceFile
 
         where:
         projectType             | language | expectedBuildFile  | expectedSourceFile
@@ -98,5 +84,39 @@ plugins {
         null                    | null     | 'build.gradle'     | 'src/main/java/com/example/demo/DemoApplication.java'
         'null'                  | 'null'   | 'build.gradle'     | 'src/main/java/com/example/demo/DemoApplication.java'
         ''                      | ''       | 'build.gradle'     | 'src/main/java/com/example/demo/DemoApplication.java'
+    }
+
+    def 'initSpringBootProject does not extract when extract=false'() {
+        given:
+        def buildFile = new File(testProjectDir, 'build.gradle')
+        buildFile.text = """
+plugins {
+    id '${PluginConfig.getOrThrow PluginConstants.PLUGIN_ID}'
+}
+
+tasks.named("$initSpringBootProjectTaskName") {
+    extract.set 'false'
+}
+"""
+        def generatedProjectDir = new File(testProjectDir, outputDir)
+        def zipFile = new File(generatedProjectDir, zipName)
+        def unzipDir = new File(generatedProjectDir, unzipDirName)
+        def args = GradleTestRunner.asListOfStrings([
+                initSpringBootProjectTaskName,
+                "-PoutputDir=${generatedProjectDir.absolutePath}",
+        ])
+
+        when:
+        def result = new GradleTestRunner(projectDir: testProjectDir, args: args).run()
+
+        then:
+        result.output.contains 'Downloading Spring Boot starter project'
+
+        and:
+        result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
+
+        and:
+        FilesTestUtils.zipFileExistsAndNotEmpty zipFile
+        FilesTestUtils.unzipDirectoryDoesNotExist unzipDir
     }
 }

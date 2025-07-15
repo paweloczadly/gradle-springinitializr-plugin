@@ -21,4 +21,5 @@ class PluginConstants {
     // convention:
     static final String TASK_INITSPRINGBOOTPROJECT_CONVENTION_INITIALIZRURL_DEFAULT = 'task.initSpringBootProject.convention.initializrUrl.default'
     static final String TASK_INITSPRINGBOOTPROJECT_CONVENTION_METADATAENDPOINT_DEFAULT = 'task.initSpringBootProject.convention.metadataEndpoint.default'
+    static final String TASK_INITSPRINGBOOTPROJECT_CONVENTION_EXTRACT_DEFAULT = 'task.initSpringBootProject.convention.extract.default'
 }

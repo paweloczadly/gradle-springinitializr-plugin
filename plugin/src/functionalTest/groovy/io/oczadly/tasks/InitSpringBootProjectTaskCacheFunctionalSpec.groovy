@@ -2,8 +2,8 @@ package io.oczadly.tasks
 
 import io.oczadly.internal.config.PluginConfig
 import io.oczadly.internal.config.PluginConstants
+import io.oczadly.testsupport.FilesTestUtils
 import io.oczadly.testsupport.GradleTestRunner
-import io.oczadly.testsupport.ZipTestUtils
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 import spock.lang.TempDir
@@ -36,7 +36,6 @@ plugins {
     def 'initSpringBootProject supports configuration cache'() {
         given:
         def generatedProjectDir = new File(testProjectDir, outputDir)
-        def zipFile = new File(generatedProjectDir, zipName)
         def unzipDir = new File(generatedProjectDir, unzipDirName)
         def args = GradleTestRunner.asListOfStrings([
                 initSpringBootProjectTaskName,
@@ -54,13 +53,7 @@ plugins {
         result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
 
         and:
-        ZipTestUtils.zipFileExistsAndNotEmpty zipFile
-
-        when:
-        ZipTestUtils.unzipToDir zipFile, unzipDir
-
-        then:
-        ZipTestUtils.projectFilesExist unzipDir, 'build.gradle', 'src/main/java/com/example/demo/DemoApplication.java'
+        FilesTestUtils.projectFilesExist unzipDir, 'build.gradle', 'src/main/java/com/example/demo/DemoApplication.java'
     }
 
     def 'initSpringBootProject supports build cache'() {

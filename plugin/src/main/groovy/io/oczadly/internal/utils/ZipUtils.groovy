@@ -1,13 +1,9 @@
-package io.oczadly.testsupport
+package io.oczadly.internal.utils
 
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-class ZipTestUtils {
-
-    static boolean zipFileExistsAndNotEmpty(File zipFile) {
-        zipFile.exists() && zipFile.length() > 0
-    }
+class ZipUtils {
 
     static void unzipToDir(File zipFile, File targetDir) {
         targetDir.mkdirs()
@@ -29,9 +25,5 @@ class ZipTestUtils {
         } finally {
             zip.close()
         }
-    }
-
-    static boolean projectFilesExist(File projectDir, String... files) {
-        files.every { file -> new File(projectDir, file).exists() }
     }
 }

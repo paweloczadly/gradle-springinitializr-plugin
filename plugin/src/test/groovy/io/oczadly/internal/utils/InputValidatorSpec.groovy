@@ -33,4 +33,21 @@ class InputValidatorSpec extends Specification {
         then:
         noExceptionThrown()
     }
+
+    def 'validateSupportedExtractValues throws exception for invalid extract value'() {
+        when:
+        InputValidator.validateSupportedExtractValues 'maybe'
+
+        then:
+        thrown InvalidUserDataException
+    }
+
+    def 'validateSupportedExtractValues does not throw for valid extract values'() {
+        when:
+        InputValidator.validateSupportedExtractValues 'true'
+        InputValidator.validateSupportedExtractValues 'false'
+
+        then:
+        noExceptionThrown()
+    }
 }
