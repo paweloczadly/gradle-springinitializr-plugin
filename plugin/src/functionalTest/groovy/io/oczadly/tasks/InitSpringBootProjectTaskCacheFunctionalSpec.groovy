@@ -47,7 +47,7 @@ plugins {
         def result = new GradleTestRunner(projectDir: testProjectDir, args: args).run()
 
         then:
-        result.output.contains 'Downloading Spring Boot starter project...'
+        result.output.contains "Project downloaded to: ${generatedProjectDir.absolutePath}"
 
         and:
         result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
@@ -98,7 +98,7 @@ plugins {
         def firstRun = new GradleTestRunner(projectDir: testProjectDir, args: args).run()
 
         then:
-        firstRun.output.contains 'Downloading Spring Boot starter project...'
+        firstRun.output.contains 'Project downloaded to'
 
         and:
         firstRun.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS

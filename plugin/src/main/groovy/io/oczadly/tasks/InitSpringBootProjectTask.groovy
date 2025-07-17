@@ -1,11 +1,10 @@
 package io.oczadly.tasks
 
 import io.oczadly.internal.generator.MetadataService
+import io.oczadly.internal.generator.SpringBootProjectGenerator
 import io.oczadly.internal.utils.InputValidator
 import io.oczadly.internal.config.PluginConfig
 import io.oczadly.internal.config.PluginConstants
-import io.oczadly.internal.utils.UrlUtils
-import io.oczadly.internal.utils.ZipUtils
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
@@ -64,25 +63,11 @@ abstract class InitSpringBootProjectTask extends DefaultTask {
 
         LinkedHashMap<String, String> queryParams = ['type'    : projectTypeValue,
                                                      'language': languageValue,]
-        String query = UrlUtils.toQueryString queryParams
-        URL url = new URI("${initializrUrl.get()}/starter.zip?$query").toURL()
 
-        File generateDir = outputDir.get().asFile
-        generateDir.mkdirs()
-        File projectZip = new File(generateDir, PluginConfig.getOrThrow(PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_ZIPFILE_DEFAULT))
-
-        logger.lifecycle 'Downloading Spring Boot starter project...'
-
-        url.withInputStream { input -> projectZip.withOutputStream { output -> output << input }
-        }
-
-        logger.lifecycle "Project downloaded to: ${projectZip.absolutePath}"
-
-        if (extract.getOrNull().toBoolean()) {
-            String extractedDirAbsolutePath = "${generateDir.absolutePath}/${PluginConfig.getOrThrow(PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_PROJECTNAME_DEFAULT)}"
-            ZipUtils.unzipToDir projectZip, new File(extractedDirAbsolutePath)
-
-            logger.lifecycle "Project extracted to: $extractedDirAbsolutePath"
-        }
+        SpringBootProjectGenerator generator = new SpringBootProjectGenerator(logger)
+        generator.generate(initializrUrl.get(),
+                queryParams,
+                outputZipFile,
+                extract.getOrNull()?.toBoolean() ? unzipDir : null)
     }
 }

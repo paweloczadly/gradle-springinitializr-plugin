@@ -44,7 +44,7 @@ plugins {
         def result = new GradleTestRunner(projectDir: testProjectDir, args: args).run()
 
         then:
-        result.output.contains 'Downloading Spring Boot starter project...'
+        result.output.contains "Project downloaded to: ${generatedProjectDir.absolutePath}"
 
         and:
         result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
@@ -69,7 +69,7 @@ plugins {
         def result = new GradleTestRunner(projectDir: testProjectDir, args: args).run()
 
         then:
-        result.output.contains 'Downloading Spring Boot starter project'
+        result.output.contains "Project downloaded to: ${generatedProjectDir.absolutePath}"
 
         and:
         result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
@@ -110,7 +110,7 @@ tasks.named("$initSpringBootProjectTaskName") {
         def result = new GradleTestRunner(projectDir: testProjectDir, args: args).run()
 
         then:
-        result.output.contains 'Downloading Spring Boot starter project'
+        result.output.contains "Project downloaded to: ${generatedProjectDir.absolutePath}"
 
         and:
         result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
