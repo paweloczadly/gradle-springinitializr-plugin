@@ -21,6 +21,9 @@ testing {
 
             dependencies {
                 implementation project()
+
+                implementation "io.spring.initializr:initializr-web:${libs.versions.initializr.get()}:stubs"
+                implementation libs.wiremock.jre8
             }
 
             targets {

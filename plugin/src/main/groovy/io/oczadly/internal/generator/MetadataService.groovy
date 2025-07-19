@@ -14,6 +14,12 @@ class MetadataService {
         [type: type, language: language]
     }
 
+    static Map<String, Object> extractDefaults(String metadataUrl, Logger logger) {
+        Object parsed = fetchMetadata metadataUrl, logger
+
+        [type: parsed?.type?.default, language: parsed?.language?.default]
+    }
+
     private static Object fetchMetadata(String metadataUrl, Logger logger) {
         try {
             URL url = new URI(metadataUrl).toURL()

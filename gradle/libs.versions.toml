@@ -1,3 +1,8 @@
 [versions]
 codenarc = '3.6.0'
+initializr = '0.22.0'
 spock = '2.3-groovy-3.0'
+wiremock = '3.13.1'
+
+[libraries]
+wiremock-jre8 = { module = 'org.wiremock:wiremock', version.ref = 'wiremock' }

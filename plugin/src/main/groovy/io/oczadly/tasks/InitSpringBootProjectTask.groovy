@@ -55,8 +55,9 @@ abstract class InitSpringBootProjectTask extends DefaultTask {
         List<String> supportedProjectTypes = metadata.type
         List<String> supportedLanguages = metadata.language
 
-        String projectTypeValue = InputValidator.sanitize projectType.orNull, PluginConfig.getOrThrow(PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_PROJECTTYPE_DEFAULT)
-        String languageValue = InputValidator.sanitize language.orNull, PluginConfig.getOrThrow(PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_LANGUAGE_DEFAULT)
+        Map<String, Object> defaultOptions = MetadataService.extractDefaults metadataUrl, logger
+        String projectTypeValue = InputValidator.sanitize projectType.orNull, (defaultOptions.type ?: 'gradle-project').toString()
+        String languageValue = InputValidator.sanitize language.orNull, (defaultOptions.language ?: 'java').toString()
 
         InputValidator.validateSupportedValues projectTypeValue, supportedProjectTypes, 'project type'
         InputValidator.validateSupportedValues languageValue, supportedLanguages, 'language'
