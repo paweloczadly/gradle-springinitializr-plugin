@@ -22,6 +22,9 @@ ruleset {
     ruleset 'rulesets/groovyism.xml'
     ruleset 'rulesets/imports.xml'
     ruleset('rulesets/naming.xml') {
+        FactoryMethodName {
+            doNotApplyToClassNames = 'SpringInitializrParamsBuilderSpec'
+        }
         MethodName {
             doNotApplyToClassNames = '*Spec'
         }

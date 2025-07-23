@@ -2,7 +2,7 @@ package io.oczadly.tasks
 
 import io.oczadly.internal.generator.MetadataService
 import io.oczadly.internal.generator.SpringBootProjectGenerator
-import io.oczadly.internal.utils.InputValidator
+import io.oczadly.internal.generator.SpringInitializrParamsBuilder
 import io.oczadly.internal.config.PluginConfig
 import io.oczadly.internal.config.PluginConstants
 import org.gradle.api.DefaultTask
@@ -51,19 +51,9 @@ abstract class InitSpringBootProjectTask extends DefaultTask {
     @TaskAction
     void download() {
         String metadataUrl = initializrUrl.get() + metadataEndpoint.get()
-        Map<String, List<String>> metadata = MetadataService.extractSupportedOptions metadataUrl, logger
-        List<String> supportedProjectTypes = metadata.type
-        List<String> supportedLanguages = metadata.language
-
-        Map<String, Object> defaultOptions = MetadataService.extractDefaults metadataUrl, logger
-        String projectTypeValue = InputValidator.sanitize projectType.orNull, (defaultOptions.type ?: 'gradle-project').toString()
-        String languageValue = InputValidator.sanitize language.orNull, (defaultOptions.language ?: 'java').toString()
-
-        InputValidator.validateSupportedValues projectTypeValue, supportedProjectTypes, 'project type'
-        InputValidator.validateSupportedValues languageValue, supportedLanguages, 'language'
-
-        LinkedHashMap<String, String> queryParams = ['type'    : projectTypeValue,
-                                                     'language': languageValue,]
+        Map<String, List<String>> supportedOptions = MetadataService.extractSupportedOptions metadataUrl, logger
+        LinkedHashMap<String, String> queryParams = SpringInitializrParamsBuilder.buildQueryParams([type: projectType.orNull,
+                                                                                                    language: language.orNull,],supportedOptions)
 
         SpringBootProjectGenerator generator = new SpringBootProjectGenerator(logger)
         generator.generate(initializrUrl.get(),
