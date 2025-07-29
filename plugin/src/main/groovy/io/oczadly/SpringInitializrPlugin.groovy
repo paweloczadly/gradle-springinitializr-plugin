@@ -22,6 +22,16 @@ class SpringInitializrPlugin implements Plugin<Project> {
 
         Provider<String> projectTypeProp = providers.gradleProperty 'projectType'
         Provider<String> languageProp = providers.gradleProperty 'language'
+        Provider<String> bootVersionProp = providers.gradleProperty 'bootVersion'
+        Provider<String> groupIdProp = providers.gradleProperty 'groupId'
+        Provider<String> artifactIdProp = providers.gradleProperty 'artifactId'
+        Provider<String> projectNameProp = providers.gradleProperty 'projectName'
+        Provider<String> projectDescriptionProp = providers.gradleProperty 'projectDescription'
+        Provider<String> packageNameProp = providers.gradleProperty 'packageName'
+        Provider<String> packagingProp = providers.gradleProperty 'packaging'
+        Provider<String> javaVersionProp = providers.gradleProperty 'javaVersion'
+        Provider<String> dependenciesProp = providers.gradleProperty 'dependencies'
+
         ProjectLayout layout = project.layout
         Provider<Directory> defaultOutputDir = layout.buildDirectory.dir(
                 PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_OUTPUTDIR_DEFAULT
@@ -44,6 +54,15 @@ class SpringInitializrPlugin implements Plugin<Project> {
             // -P parameters:
             task.projectType.set projectTypeProp
             task.language.set languageProp
+            task.bootVersion.set bootVersionProp
+            task.groupId.set groupIdProp
+            task.artifactId.set artifactIdProp
+            task.projectName.set projectNameProp
+            task.projectDescription.set projectDescriptionProp
+            task.packageName.set packageNameProp
+            task.packaging.set packagingProp
+            task.javaVersion.set javaVersionProp
+            task.dependencies.set dependenciesProp
             task.outputDir.set outputDirProp
 
             // convention:

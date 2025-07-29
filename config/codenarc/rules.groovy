@@ -18,7 +18,11 @@ ruleset {
             doNotApplyToClassNames = '*Spec'
         }
     }
-    ruleset 'rulesets/dry.xml'
+    ruleset('rulesets/dry.xml') {
+        DuplicateStringLiteral {
+            doNotApplyToClassNames = 'BootVersionUtils,SpringInitializrParamsUtils,SpringInitializrParamsBuilder'
+        }
+    }
     ruleset 'rulesets/groovyism.xml'
     ruleset 'rulesets/imports.xml'
     ruleset('rulesets/naming.xml') {

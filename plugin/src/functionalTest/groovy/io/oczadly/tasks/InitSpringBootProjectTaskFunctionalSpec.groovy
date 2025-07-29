@@ -86,6 +86,46 @@ plugins {
         ''                      | ''       | 'build.gradle'     | 'src/main/java/com/example/demo/DemoApplication.java'
     }
 
+    def 'initSpringBootProject uses correct groupId, artifactId, projectName, projectDescription, packageName, packaging, javaVersion and dependencies'() {
+        given:
+        def additionalDependencies = 'activemq, amqp'
+        def expectedDependencies = additionalDependencies.split(', ').collect { dep -> "implementation 'org.springframework.boot:spring-boot-starter-$dep'" }
+        def generatedProjectDir = new File(testProjectDir, unzipDirName)
+        def projectName = 'spring-initializr'
+        def unzipDir = new File(generatedProjectDir, projectName)
+        def args = GradleTestRunner.asListOfStrings([
+                initSpringBootProjectTaskName,
+                '-PgroupId=io.oczadly',
+                '-PartifactId=spring-initializr',
+                "-PprojectName=$projectName",
+                '-PprojectDescription=Spring Initializr Project',
+                '-PpackageName=io.oczadly.spring.initializr',
+                '-Ppackaging=war',
+                '-PjavaVersion=17',
+                "-Pdependencies=$additionalDependencies",
+                "-PoutputDir=${generatedProjectDir.absolutePath}",
+        ])
+
+        when:
+        def result = new GradleTestRunner(projectDir: testProjectDir, args: args).run()
+
+        then:
+        result.output.contains "Project downloaded to: ${generatedProjectDir.absolutePath}"
+
+        and:
+        result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
+
+        and:
+        FilesTestUtils.projectFilesExist unzipDir,
+                'src/main/java/io/oczadly/spring/initializr/ServletInitializer.java',
+                'src/main/java/io/oczadly/spring/initializr/SpringInitializrApplication.java',
+                'src/main/resources/static',
+                'src/main/resources/templates'
+
+        and:
+        FilesTestUtils.projectFilesContainText unzipDir, 'build.gradle', expectedDependencies
+    }
+
     def 'initSpringBootProject does not extract when extract=false'() {
         given:
         def buildFile = new File(testProjectDir, 'build.gradle')

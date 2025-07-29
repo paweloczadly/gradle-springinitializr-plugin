@@ -21,6 +21,54 @@ class SpringInitializrParamsUtils {
         val
     }
 
+    static String bootVersion(Object raw, List<String> allowed) {
+        String stringValue = text raw
+        if (!stringValue) {
+            return null
+        }
+        stringValue = BootVersionUtils.sanitize stringValue
+        if (allowed && !allowed.contains(stringValue)) {
+            throw new InvalidUserDataException("Unsupported Spring Boot version: '$stringValue'. Supported: ${allowed.join(', ')}.")
+        }
+
+        BootVersionUtils.toInitializr stringValue
+    }
+
+    static String dependencies(Object raw, List<String> allowed) {
+        String stringValue = text raw
+        if (!stringValue) {
+            return null
+        }
+
+        List<String> values = stringValue.split(',')
+                .toList()
+                *.trim()
+                *.toLowerCase(Locale.ROOT)
+                .findAll()
+
+        if (values.isEmpty()) {
+            return null
+        }
+
+        if (allowed) {
+            values.each { dep ->
+                if (!allowed.contains(dep)) {
+                    throw new InvalidUserDataException("Unsupported dependency: '$dep'. Supported: ${allowed.join(', ')}.")
+                }
+            }
+        }
+        values.join ','
+    }
+
+    static String javaPackage(Object raw, String label) {
+        String stringValue = text raw
+        if (!stringValue) {
+            return null
+        }
+        JavaPackagingUtils.validateJavaPackagingConvention stringValue, label
+        stringValue
+    }
+
     static String text(Object v) {
         hasText(v) ? v.toString().trim() : null
     }

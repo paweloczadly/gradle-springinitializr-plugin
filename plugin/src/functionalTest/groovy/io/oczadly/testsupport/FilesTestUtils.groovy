@@ -13,4 +13,9 @@ class FilesTestUtils {
     static boolean projectFilesExist(File projectDir, String... files) {
         files.every { file -> new File(projectDir, file).exists() }
     }
+
+    static boolean projectFilesContainText(File projectDir, String fileName, Object text) {
+        String fileContent = new File(projectDir, fileName).text
+        [text].flatten().every { desiredText -> fileContent.contains desiredText }
+    }
 }

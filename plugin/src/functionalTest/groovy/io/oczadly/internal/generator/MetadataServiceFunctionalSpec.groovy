@@ -51,6 +51,10 @@ class MetadataServiceFunctionalSpec extends Specification {
         expect:
         result.type
         result.language
+        result.bootVersion
+        result.packaging
+        result.javaVersion
+        result.dependencies
     }
 
     def 'should extract defaults from stub'() {
@@ -60,5 +64,13 @@ class MetadataServiceFunctionalSpec extends Specification {
         expect:
         result.type
         result.language
+        result.bootVersion
+        result.packaging
+        result.javaVersion
+        result.groupId
+        result.artifactId
+        result.name
+        result.description
+        result.packageName
     }
 }

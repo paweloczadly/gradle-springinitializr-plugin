@@ -9,7 +9,8 @@ class UrlUtilsSpec extends Specification {
         UrlUtils.toQueryString([
                 type    : 'gradle-project',
                 language: 'java',
-        ]) == 'type=gradle-project&language=java'
+                description: 'Spring Initializr project',
+        ]) == 'type=gradle-project&language=java&description=Spring+Initializr+project'
     }
 
     def 'toQueryString handles null and empty values'() {

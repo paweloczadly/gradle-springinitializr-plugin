@@ -44,7 +44,14 @@ class SpringBootProjectGeneratorFunctionalSpec extends Specification {
 
     def 'generate is able to download and extract project with parameters'() {
         given:
-        LinkedHashMap<String, String> queryParams = [type: 'gradle-project-kotlin', language: 'kotlin']
+        LinkedHashMap<String, String> queryParams = [type        : 'gradle-project-kotlin',
+                                                     language    : 'kotlin',
+                                                     groupId     : 'io.oczadly',
+                                                     artifactId  : 'myspringapp',
+                                                     description : 'My awesome Spring Boot application',
+                                                     packageName : 'io.oczadly.myspringapp',
+                                                     packaging   : 'jar',
+                                                     dependencies: 'web',]
 
         when:
         generator.generate initializrUrl, queryParams, outputZip, unzipDir
@@ -52,7 +59,7 @@ class SpringBootProjectGeneratorFunctionalSpec extends Specification {
         then:
         FilesTestUtils.zipFileExistsAndNotEmpty outputZip
         FilesTestUtils.projectFilesExist unzipDir, 'build.gradle.kts'
-        FilesTestUtils.projectFilesExist unzipDir, 'src/main/kotlin/com/example/demo/DemoApplication.kt'
+        FilesTestUtils.projectFilesExist unzipDir, 'src/main/kotlin/io/oczadly/myspringapp/DemoApplication.kt'
     }
 
     def 'generate should only download project without extracting'() {

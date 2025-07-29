@@ -67,6 +67,13 @@ plugins {
                 "-PoutputDir=${generatedProjectDir.absolutePath}",
                 '--configuration-cache',
                 '--build-cache',
+                '-PgroupId=io.oczadly',
+                '-PartifactId=spring-initializr',
+                '-PprojectName=Spring Initializr',
+                '-PprojectDescription=Spring Initializr Project',
+                '-PpackageName=io.oczadly.spring.initializr',
+                '-Ppackaging=jar',
+                '-PjavaVersion=17',
         ])
 
         when: 'first run'
@@ -120,7 +127,17 @@ plugins {
                 '--build-cache',
         ])
         def firstArgs = baseArgs
-        def secondArgs = baseArgs + ['-PprojectType=gradle-project-kotlin', '-Planguage=kotlin']
+        def secondArgs = baseArgs + [
+                '-PprojectType=gradle-project-kotlin',
+                '-Planguage=kotlin',
+                '-PgroupId=io.oczadly',
+                '-PartifactId=spring-initializr',
+                '-PprojectName=Spring Initializr',
+                '-PprojectDescription=Spring Initializr Project',
+                '-PpackageName=io.oczadly.spring.initializr',
+                '-Ppackaging=war',
+                '-PjavaVersion=24',
+        ]
 
         when: 'first run'
         def firstRun = new GradleTestRunner(projectDir: testProjectDir, gradleUserHomeDir: testCacheDir, args: firstArgs).run()
