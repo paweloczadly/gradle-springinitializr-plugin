@@ -17,10 +17,12 @@ class SpringInitializrPluginSpec extends Specification {
     private final String initializrUrl = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_INITIALIZRURL_DEFAULT
     private final String metadataEndpoint = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_METADATAENDPOINT_DEFAULT
     private final String extract = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_CONVENTION_EXTRACT_DEFAULT
+    private final String interactive = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_INTERACTIVE_DEFAULT
 
     private final String customInitializrUrl = 'https://start.spring.oczadly.io'
     private final String customMetadataEndpoint = '/metadata/spring'
     private final String customExtract = 'false'
+    private final String customInteractive = 'print'
 
     def setup() {
         project = ProjectBuilder.builder().build()
@@ -74,5 +76,19 @@ class SpringInitializrPluginSpec extends Specification {
 
         expect:
         task.extract.get() == customExtract
+    }
+
+    def 'initSpringBootProject task uses default interactive if not provided'() {
+        expect:
+        task.interactive.get() == interactive
+    }
+
+    def 'initSpringBootProject task uses custom interactive from property'() {
+        given:
+        project.extensions.extraProperties.set 'interactive', customInteractive
+        task.extract.set project.property('interactive')
+
+        expect:
+        task.extract.get() == customInteractive
     }
 }

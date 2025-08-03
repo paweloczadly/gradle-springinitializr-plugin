@@ -20,7 +20,7 @@ ruleset {
     }
     ruleset('rulesets/dry.xml') {
         DuplicateStringLiteral {
-            doNotApplyToClassNames = 'BootVersionUtils,SpringInitializrParamsUtils,SpringInitializrParamsBuilder'
+            doNotApplyToClassNames = 'BootVersionUtils,SpringInitializrParamsUtils,SpringInitializrParamsBuilder,InitSpringBootProjectTask'
         }
     }
     ruleset 'rulesets/groovyism.xml'

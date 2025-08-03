@@ -48,4 +48,17 @@ class BootVersionUtilsSpec extends Specification {
         '3.4.7-SNAPSHOT' || '3.4.7.BUILD-SNAPSHOT'
         '3.4.7-M1'       || '3.4.7.M1'
     }
+
+    @Unroll
+    def 'toRequestBootVersion maps #input -> #output'() {
+        expect:
+        BootVersionUtils.toRequestBootVersion(input) == output
+
+        where:
+        input                  || output
+        null                   || null
+        '3.4.7.RELEASE'        || '3.4.7'
+        '3.4.7.BUILD-SNAPSHOT' || '3.4.7-SNAPSHOT'
+        '3.4.7.M1'             || '3.4.7-M1'
+    }
 }
