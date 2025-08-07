@@ -1,7 +1,7 @@
 [versions]
 codenarc = '3.6.0'
 initializr = '0.22.0'
-spock = '2.3-groovy-3.0'
+spock = '2.3-groovy-4.0'
 wiremock = '3.13.1'
 
 [libraries]
