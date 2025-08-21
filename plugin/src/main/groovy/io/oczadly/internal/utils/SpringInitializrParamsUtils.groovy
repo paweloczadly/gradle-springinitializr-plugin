@@ -26,12 +26,15 @@ class SpringInitializrParamsUtils {
         if (!stringValue) {
             return null
         }
+
         stringValue = BootVersionUtils.sanitize stringValue
-        if (allowed && !allowed.contains(stringValue)) {
+        String initializrVersion = BootVersionUtils.toInitializr stringValue
+
+        if (allowed && !allowed.contains(initializrVersion)) {
             throw new InvalidUserDataException("Unsupported Spring Boot version: '$stringValue'. Supported: ${allowed.join(', ')}.")
         }
 
-        BootVersionUtils.toInitializr stringValue
+        BootVersionUtils.toRequestBootVersion stringValue
     }
 
     static String dependencies(Object raw, List<String> allowed) {

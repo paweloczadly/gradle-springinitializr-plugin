@@ -11,7 +11,7 @@ class SpringInitializrParamsUtilsSpec extends Specification {
     def setup() {
         supportedOptions = [type        : ['gradle-project', 'gradle-project-kotlin', 'maven-project'],
                             language    : ['java', 'kotlin', 'groovy'],
-                            bootVersion : ['3.4.7-SNAPSHOT', '3.4.7-M99', '3.4.7'],
+                            bootVersion : ['3.4.7.BUILD-SNAPSHOT', '3.4.7.M99', '3.4.7.RELEASE'],
                             packaging   : ['jar', 'war'],
                             javaVersion : ['24', '21', '17'],
                             dependencies: ['web', 'actuator', 'data-jpa']]
@@ -70,10 +70,13 @@ class SpringInitializrParamsUtilsSpec extends Specification {
         SpringInitializrParamsUtils.bootVersion(userInput, supportedOptions['bootVersion']) == bootVersion
 
         where:
-        userInput        || bootVersion
-        '3.4.7'          || '3.4.7.RELEASE'
-        '3.4.7-M99'      || '3.4.7.M99'
-        '3.4.7-SNAPSHOT' || '3.4.7.BUILD-SNAPSHOT'
+        userInput              || bootVersion
+        '3.4.7.RELEASE'        || '3.4.7'
+        '3.4.7'                || '3.4.7'
+        '3.4.7.M99'            || '3.4.7-M99'
+        '3.4.7-M99'            || '3.4.7-M99'
+        '3.4.7.BUILD-SNAPSHOT' || '3.4.7-SNAPSHOT'
+        '3.4.7-SNAPSHOT'       || '3.4.7-SNAPSHOT'
     }
 
     @Unroll
@@ -86,18 +89,15 @@ class SpringInitializrParamsUtilsSpec extends Specification {
         ex.message == "Unsupported Spring Boot version: '$value'. Supported: ${supportedOptions['bootVersion'].join(', ')}."
 
         where:
-        value << ['0.0.1-SNAPSHOT',
-                  '0.0.1-M1',
-                  '0.0.1']
+        value << ['0.0.1.BUILD-SNAPSHOT',
+                  '0.0.1.M1',
+                  '0.0.1.RELEASE']
     }
 
     @Unroll
     def 'bootVersion returns null for #value'() {
-        given:
-        def allowed = ['3.4.7', '3.4.7-M99', '3.4.7-SNAPSHOT']
-
         expect:
-        SpringInitializrParamsUtils.bootVersion(value, allowed) == null
+        SpringInitializrParamsUtils.bootVersion(value, supportedOptions['bootVersion']) == null
 
         where:
         value << [null,

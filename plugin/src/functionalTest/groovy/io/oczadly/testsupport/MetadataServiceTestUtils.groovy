@@ -1,5 +1,8 @@
 package io.oczadly.testsupport
 
+import io.oczadly.internal.generator.MetadataService
+import org.gradle.api.logging.Logger
+
 class MetadataServiceTestUtils {
 
     static final String TEST_METADATA = '''{
@@ -25,4 +28,15 @@ class MetadataServiceTestUtils {
             "description": {"type": "text", "default": "Demo project for Spring Boot"},
             "packageName": {"type": "text", "default": "com.example.demo"}
         }'''
+
+    static String getRandomBootVersion(String metadataUrl, Logger logger) {
+        Map<String, List<String>> metadata = MetadataService.extractSupportedOptions metadataUrl, logger
+        List<String> bootVersions = (metadata?.bootVersion ?: []).findAll() as List<String>
+        if (bootVersions.isEmpty()) {
+            throw new IllegalStateException("No boot versions in metadata at $metadataUrl")
+        }
+        // Prefer RELEASE
+        String release = bootVersions.find { v -> v.endsWith('.RELEASE') || !v.matches(/.*(-M\d+|-SNAPSHOT|BUILD-SNAPSHOT)/) }
+        release ?: bootVersions.first()
+    }
 }

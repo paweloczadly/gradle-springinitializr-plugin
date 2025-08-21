@@ -10,7 +10,7 @@ import java.util.regex.Pattern
 class BootVersionUtils {
 
     private static final String CORE = '\\d+\\.\\d+\\.\\d+'
-    private static final String REGEX = "^${CORE}(?:-(?:M\\d+|SNAPSHOT))?\$"
+    private static final String REGEX = "^${CORE}(?:\\.(?:RELEASE|BUILD-SNAPSHOT|M\\d+)|-(?:RELEASE|SNAPSHOT|M\\d+))?\$"
 
     private static final Pattern SNAPSHOT_DASH = Pattern.compile('-SNAPSHOT$')
     private static final Pattern SNAPSHOT_DOT = Pattern.compile('\\.BUILD-SNAPSHOT$')
@@ -22,7 +22,7 @@ class BootVersionUtils {
         if (v != null && v.matches(REGEX)) {
             return v
         }
-        throw new InvalidUserDataException("Invalid Spring Boot version '$version'. Expected x.y.z, x.y.z-M<N>, or x.y.z-SNAPSHOT.")
+        throw new InvalidUserDataException("Invalid Spring Boot version '$version'. Expected x.y.z[.RELEASE|.M<N>|.BUILD-SNAPSHOT] or x.y.z[-M<N>|-SNAPSHOT].")
     }
 
     static String toInitializr(String version) {
@@ -30,13 +30,26 @@ class BootVersionUtils {
             return null
         }
 
-        String out = replaceIfMatches(version, SNAPSHOT_DASH, '.BUILD-SNAPSHOT')
+        String out = replaceIfMatches(version, SNAPSHOT_DOT, '.BUILD-SNAPSHOT')
+        if (out != null) {
+            return out
+        }
+
+        out = replaceIfMatches(version, SNAPSHOT_DASH, '.BUILD-SNAPSHOT')
         if (out != null) {
             return out
         }
 
         out = replaceIfMatches(version, MILESTONE_DASH, '.$1')
-        return out != null ? out : version + '.RELEASE'
+        if (out != null) {
+            return out
+        }
+
+        if (version ==~ /\d+\.\d+\.\d+/) {
+            return version + '.RELEASE'
+        }
+
+        version
     }
 
     static String toRequestBootVersion(String version) {
@@ -50,7 +63,15 @@ class BootVersionUtils {
         }
 
         out = replaceIfMatches(version, MILESTONE_DOT, '-$1')
-        return out != null ? out : stripSuffix(version, '.RELEASE')
+        if (out != null) {
+            return out
+        }
+
+        if (version.endsWith('.RELEASE')) {
+            return stripSuffix(version, '.RELEASE')
+        }
+
+        version
     }
 
     private static String replaceIfMatches(String s, Pattern pattern, String replacement) {

@@ -11,7 +11,7 @@ class SpringInitializrParamsBuilderSpec extends Specification {
     def setup() {
         supportedOptions = [type        : ['gradle-project', 'gradle-project-kotlin', 'maven-project'],
                             language    : ['java', 'kotlin', 'groovy'],
-                            bootVersion : ['3.4.7-SNAPSHOT', '3.4.7-M1', '3.4.7'],
+                            bootVersion : ['3.4.7.BUILD-SNAPSHOT', '3.4.7.M1', '3.4.7.RELEASE'],
                             packaging   : ['jar', 'war'],
                             javaVersion : ['24', '21', '17'],
                             dependencies: ['web', 'actuator', 'data-jpa']]
@@ -21,7 +21,7 @@ class SpringInitializrParamsBuilderSpec extends Specification {
         given:
         Map<String, Object> params = [type        : ' Gradle-Project ',
                                       language    : ' JAVA ',
-                                      bootVersion : '3.4.7-SNAPSHOT',
+                                      bootVersion : '3.4.7.BUILD-SNAPSHOT',
                                       groupId     : ' io.oczadly ',
                                       artifactId  : ' demo ',
                                       name        : ' Demo App ',
@@ -37,7 +37,7 @@ class SpringInitializrParamsBuilderSpec extends Specification {
         then:
         query.type == 'gradle-project'
         query.language == 'java'
-        query.bootVersion == '3.4.7.BUILD-SNAPSHOT'
+        query.bootVersion == '3.4.7-SNAPSHOT'
         query.groupId == 'io.oczadly'
         query.artifactId == 'demo'
         query.name == 'Demo App'
@@ -105,9 +105,9 @@ class SpringInitializrParamsBuilderSpec extends Specification {
         ex.message.contains "Unsupported Spring Boot version: '$value'. Supported: ${supportedOptions['bootVersion'].join(', ')}"
 
         where:
-        value << ['0.0.1-SNAPSHOT',
-                  '0.0.1-M1',
-                  '0.0.1']
+        value << ['0.0.1.BUILD-SNAPSHOT',
+                  '0.0.1.M1',
+                  '0.0.1.RELEASE']
     }
 
     @Unroll

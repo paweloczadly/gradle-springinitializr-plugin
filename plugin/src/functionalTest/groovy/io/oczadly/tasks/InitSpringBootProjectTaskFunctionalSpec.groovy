@@ -2,8 +2,11 @@ package io.oczadly.tasks
 
 import io.oczadly.internal.config.PluginConfig
 import io.oczadly.internal.config.PluginConstants
+import io.oczadly.internal.utils.BootVersionUtils
 import io.oczadly.testsupport.FilesTestUtils
 import io.oczadly.testsupport.GradleTestRunner
+import io.oczadly.testsupport.MetadataServiceTestUtils
+import org.gradle.api.logging.Logger
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 import spock.lang.TempDir
@@ -18,6 +21,8 @@ class InitSpringBootProjectTaskFunctionalSpec extends Specification {
     private final String outputDir = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_OUTPUTDIR_DEFAULT
     private final String zipName = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_ZIPFILE_DEFAULT
     private final String unzipDirName = PluginConfig.getOrThrow PluginConstants.TASK_INITSPRINGBOOTPROJECT_PROPERTY_PROJECTNAME_DEFAULT
+    private final String metadataUrl = PluginConfig.getOrThrow(PluginConstants.getTASK_INITSPRINGBOOTPROJECT_CONVENTION_INITIALIZRURL_DEFAULT()) +
+            PluginConfig.getOrThrow(PluginConstants.getTASK_INITSPRINGBOOTPROJECT_CONVENTION_METADATAENDPOINT_DEFAULT())
 
     def setup() {
         def settingsFile = new File(testProjectDir, 'settings.gradle')
@@ -158,5 +163,29 @@ tasks.named("$initSpringBootProjectTaskName") {
         and:
         FilesTestUtils.zipFileExistsAndNotEmpty zipFile
         FilesTestUtils.unzipDirectoryDoesNotExist unzipDir
+    }
+
+    def 'initSpringBootProject is able to download project with random supported bootVersion'() {
+        given:
+        def generatedProjectDir = new File(testProjectDir, outputDir)
+        def unzipDir = new File(generatedProjectDir, unzipDirName)
+        def bootVersion = MetadataServiceTestUtils.getRandomBootVersion(metadataUrl, Mock(Logger))
+        def args = GradleTestRunner.asListOfStrings([
+                initSpringBootProjectTaskName,
+                "-PoutputDir=${generatedProjectDir.absolutePath}",
+                "-PbootVersion=$bootVersion",
+        ])
+
+        when:
+        def result = new GradleTestRunner(projectDir: testProjectDir, args: args).run()
+
+        then:
+        result.output.contains "Project downloaded to: ${generatedProjectDir.absolutePath}"
+
+        and:
+        result.task(":$initSpringBootProjectTaskName").outcome == TaskOutcome.SUCCESS
+
+        and:
+        FilesTestUtils.projectFilesContainText unzipDir, 'build.gradle', BootVersionUtils.toRequestBootVersion(bootVersion)
     }
 }
