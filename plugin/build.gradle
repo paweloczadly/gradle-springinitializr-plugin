@@ -3,9 +3,12 @@ plugins {
     id 'groovy'
     id 'codenarc'
     id 'jacoco'
+
+    id 'com.gradle.plugin-publish' version libs.versions.pluginPublish
 }
 
 group = 'io.oczadly'
+version = '0.0.1'
 
 repositories {
     mavenCentral()
@@ -37,10 +40,16 @@ testing {
 }
 
 gradlePlugin {
+    website = 'https://github.com/paweloczadly/gradle-springinitializr-plugin'
+    vcsUrl = 'https://github.com/paweloczadly/gradle-springinitializr-plugin'
+
     plugins {
         springinitializr {
             id = 'io.oczadly.springinitializr'
             implementationClass = 'io.oczadly.SpringInitializrPlugin'
+            displayName = 'Gradle Spring Initializr plugin'
+            description = 'Gradle plugin for bootstrapping Spring Boot projects using Spring Initializr.'
+            tags.set(['spring', 'spring-boot', 'spring-initializr'])
         }
     }
 }
