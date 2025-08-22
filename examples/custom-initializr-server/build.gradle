@@ -1,0 +1,8 @@
+plugins {
+    id 'io.oczadly.springinitializr'
+}
+
+tasks.named('initSpringBootProject') {
+    initializrUrl = 'https://myinitializr.mydomain.com'
+    metadataEndpoint = '/mycustom/metadata'
+}
