@@ -27,7 +27,7 @@ Or to your `build.gradle` (Groovy DSL):
 
 ```groovy
 plugins {
-    id 'io.oczadly.springinitializr' version '0.0.1'
+    id 'io.oczadly.springinitializr' version '1.0.0'
 }
 ```
 
