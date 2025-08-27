@@ -1,0 +1,40 @@
+{
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    [
+      "semantic-release-replace-plugin",
+      {
+        "replacements": [
+          {
+            "files": ["README.md"],
+            "from": "\\s*id 'io\\.oczadly\\.springinitializr' version '([^']*)'",
+            "to": "\n    id 'io.oczadly.springinitializr' version '${nextRelease.version}'",
+            "regex": true
+          },
+          {
+            "files": ["plugin/build.gradle"],
+            "from": "version = '([^']*)'",
+            "to": "version = '${nextRelease.version}'",
+            "regex": true
+          }
+        ],
+        "debug": true
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "README.md", "plugin/build.gradle"]
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "successCommentCondition": false,
+        "failComment": false
+      }
+    ]
+  ]
+}
