@@ -7,6 +7,12 @@
         "replacements": [
           {
             "files": ["README.md"],
+            "from": "\\s*id\\(\"io\\.oczadly\\.springinitializr\"\\) version \"([^\"]*)\"",
+            "to": "\n    id(\"io.oczadly.springinitializr\") version \"${nextRelease.version}\"",
+            "regex": true
+          },
+          {
+            "files": ["README.md"],
             "from": "\\s*id 'io\\.oczadly\\.springinitializr' version '([^']*)'",
             "to": "\n    id 'io.oczadly.springinitializr' version '${nextRelease.version}'",
             "regex": true
