@@ -1,4 +1,4 @@
-name: Release
+name: CD
 
 on:
   push:
@@ -24,18 +24,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Release
+        uses: cycjimmy/semantic-release-action@v4
+        id: semantic
         env:
-          DEBUG: semantic-release:*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
       - name: Setup Java
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 21
       - name: Setup Gradle
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: gradle/actions/setup-gradle@v4
       - name: Publish to Gradle - Plugins
+        if: steps.semantic.outputs.new_release_published == 'true'
         run: ./gradlew publishPlugins
         env:
           GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}

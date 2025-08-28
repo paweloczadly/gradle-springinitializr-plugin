@@ -1,6 +1,6 @@
 # gradle-springinitializr-plugin
 
-[![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/springinitializr?logo=gradle)](https://plugins.gradle.org/plugin/io.oczadly.springinitializr)
+[![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.oczadly.springinitializr?logo=gradle)](https://plugins.gradle.org/plugin/io.oczadly.springinitializr)
 [![Latest Release](https://img.shields.io/github/v/release/paweloczadly/gradle-springinitializr-plugin?label=release)](https://github.com/paweloczadly/gradle-springinitializr-plugin/releases/latest)
 
 A **production-grade Gradle plugin** for **bootstrapping Spring Boot projects locally** using the [Spring Initializr API](https://start.spring.io), supporting **project metadata, build cache, and CI-friendly workflows**.
@@ -19,7 +19,7 @@ Add to your `build.gradle.kts` (Kotlin DSL):
 
 ```kotlin
 plugins {
-    id("io.oczadly.springinitializr") version "0.0.1"
+    id("io.oczadly.springinitializr") version "1.0.0"
 }
 ```
 
