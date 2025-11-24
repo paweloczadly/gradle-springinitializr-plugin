@@ -136,7 +136,6 @@ plugins {
                 '-PprojectDescription=Spring Initializr Project',
                 '-PpackageName=io.oczadly.spring.initializr',
                 '-Ppackaging=war',
-                '-PjavaVersion=24',
         ]
 
         when: 'first run'
