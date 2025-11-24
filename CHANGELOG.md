@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/paweloczadly/gradle-springinitializr-plugin/compare/v1.0.0...v1.0.1) (2025-11-24)
+
+
+### Bug Fixes
+
+* **functionalTest:** fix initSpringBootProject is not FROM_CACHE when inputs change ([#5](https://github.com/paweloczadly/gradle-springinitializr-plugin/issues/5)) ([aca7467](https://github.com/paweloczadly/gradle-springinitializr-plugin/commit/aca746749d6d2ed78257e8cb6b54b36761c2bdf0))
+
 # 1.0.0 (2025-08-27)
 
 
