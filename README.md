@@ -1,7 +1,7 @@
 # gradle-springinitializr-plugin
 
-[![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.oczadly.springinitializr?logo=gradle)](https://plugins.gradle.org/plugin/io.oczadly.springinitializr)
 [![Latest Release](https://img.shields.io/github/v/release/paweloczadly/gradle-springinitializr-plugin?label=release)](https://github.com/paweloczadly/gradle-springinitializr-plugin/releases/latest)
+[![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.oczadly.springinitializr?logo=gradle)](https://plugins.gradle.org/plugin/io.oczadly.springinitializr)
 
 A **production-grade Gradle plugin** for **bootstrapping Spring Boot projects locally** using the [Spring Initializr API](https://start.spring.io), supporting **project metadata, build cache, and CI-friendly workflows**.
 
@@ -83,7 +83,8 @@ to get a detailed build scan of your environment.
 
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-> ⚠️ Please note that this plugin is developed and maintained in focused time blocks to ensure quality. Contributions and issues will be addressed on a best-effort basis, depending on ongoing priorities.
+> [!IMPORTANT]
+> Please note that this plugin is developed and maintained in focused time blocks to ensure quality. Contributions and issues will be addressed on a best-effort basis, depending on ongoing priorities.
 
 ## 📄 License
 
