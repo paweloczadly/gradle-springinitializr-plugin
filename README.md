@@ -83,7 +83,8 @@ to get a detailed build scan of your environment.
 
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-> ⚠️ Please note that this plugin is developed and maintained in focused time blocks to ensure quality. Contributions and issues will be addressed on a best-effort basis, depending on ongoing priorities.
+> [!IMPORTANT]
+> Please note that this plugin is developed and maintained in focused time blocks to ensure quality. Contributions and issues will be addressed on a best-effort basis, depending on ongoing priorities.
 
 ## 📄 License
 
