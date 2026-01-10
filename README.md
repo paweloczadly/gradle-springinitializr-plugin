@@ -13,7 +13,8 @@ A **production-grade Gradle plugin** for **bootstrapping Spring Boot projects lo
 
 ## 📦 Installation
 
-> **Note:** Versioning is managed automatically via Git tags and [semantic-release](https://semantic-release.gitbook.io/semantic-release/), with `build.gradle` containing a placeholder version.
+> [!NOTE]
+> Versioning is managed automatically via Git tags and [semantic-release](https://semantic-release.gitbook.io/semantic-release/), with `build.gradle` containing a placeholder version.
 
 Add to your `build.gradle.kts` (Kotlin DSL):
 
