@@ -51,6 +51,7 @@ Please be respectful and constructive in your communication. Contributions are w
 
 ## ⚠️ Maintainer note
 
+> [!IMPORTANT]
 > This plugin is developed and maintained in **focused time blocks** to ensure high quality. Contributions and issues will be addressed on a **best-effort basis**, depending on ongoing priorities.
 
 Thank you for helping make **gradle-springinitializr-plugin** better! 🚀
