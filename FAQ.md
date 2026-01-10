@@ -85,13 +85,15 @@ Please run Gradle with `--stacktrace --info`. You’ll see request/response logs
 
 Yes! Please use the [feature request templates](https://github.com/paweloczadly/gradle-springinitializr-plugin/issues/new?template=10_feature_request.yaml) to request a new feature. Note, however, that:
 
-> ⚠️ This plugin is developed and maintained in **focused time blocks** to ensure quality. Updates may be addressed on a **best-effort basis**.
+> [!IMPORTANT]
+> This plugin is developed and maintained in **focused time blocks** to ensure quality. Updates may be addressed on a **best-effort basis**.
 
 ## Can I report a bug?
 
 Yes! Please use the [bug report templates](https://github.com/paweloczadly/gradle-springinitializr-plugin/issues/new?template=20_bug_report.yaml) to report a clear and reproducible issue.
 
-> ⚠️ This plugin is developed and maintained in focused time blocks to ensure quality. Bug reports will be reviewed and addressed on a best-effort basis, depending on ongoing priorities.
+> [!IMPORTANT]
+> This plugin is developed and maintained in focused time blocks to ensure quality. Bug reports will be reviewed and addressed on a best-effort basis, depending on ongoing priorities.
 
 ## How do I contribute?
 
