@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/paweloczadly/gradle-springinitializr-plugin/compare/v1.0.1...v1.0.2) (2026-05-25)
+
+
+### Bug Fixes
+
+* adjust default class name and add RC Spring Boot version handling ([#10](https://github.com/paweloczadly/gradle-springinitializr-plugin/issues/10)) ([103b1df](https://github.com/paweloczadly/gradle-springinitializr-plugin/commit/103b1df23a700e956214f81c278f550155eb63a9))
+
 ## [1.0.1](https://github.com/paweloczadly/gradle-springinitializr-plugin/compare/v1.0.0...v1.0.1) (2025-11-24)
 
 

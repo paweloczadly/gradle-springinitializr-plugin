@@ -20,7 +20,7 @@ Add to your `build.gradle.kts` (Kotlin DSL):
 
 ```kotlin
 plugins {
-    id("io.oczadly.springinitializr") version "1.0.1"
+    id("io.oczadly.springinitializr") version "1.0.2"
 }
 ```
 
@@ -28,7 +28,7 @@ Or to your `build.gradle` (Groovy DSL):
 
 ```groovy
 plugins {
-    id 'io.oczadly.springinitializr' version '1.0.1'
+    id 'io.oczadly.springinitializr' version '1.0.2'
 }
 ```
 
