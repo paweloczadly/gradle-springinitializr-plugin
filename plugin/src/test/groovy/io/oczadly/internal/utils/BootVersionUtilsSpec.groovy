@@ -17,6 +17,8 @@ class BootVersionUtilsSpec extends Specification {
                     '3.4.7.RELEASE',
                     '3.4.7-M1',
                     '3.4.7.M1',
+                    '4.1.0-RC1',
+                    '4.1.0.RC1',
                     '3.4.7.BUILD-SNAPSHOT',
                     '3.4.7-SNAPSHOT']
     }
@@ -30,7 +32,7 @@ class BootVersionUtilsSpec extends Specification {
         def ex = thrown InvalidUserDataException
 
         and:
-        ex.message == "Invalid Spring Boot version '$version'. Expected x.y.z[.RELEASE|.M<N>|.BUILD-SNAPSHOT] or x.y.z[-M<N>|-SNAPSHOT]."
+        ex.message == "Invalid Spring Boot version '$version'. Expected x.y.z[.RELEASE|.M<N>|.RC<N>|.BUILD-SNAPSHOT] or x.y.z[-M<N>|-RC<N>|-SNAPSHOT]."
 
         where:
         version << [null,
