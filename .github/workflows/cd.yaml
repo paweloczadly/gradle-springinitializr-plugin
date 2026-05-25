@@ -34,9 +34,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
-      - name: Setup Gradle
-        if: steps.semantic.outputs.new_release_published == 'true'
-        uses: gradle/actions/setup-gradle@v4
+      - name: Set up OSS Community Develocity Instance for Gradle
+        uses: gradle/actions/setup-gradle@v6.1.0
+        with:
+          develocity-access-key: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
       - name: Publish to Gradle - Plugins
         if: steps.semantic.outputs.new_release_published == 'true'
         run: ./gradlew publishPlugins
