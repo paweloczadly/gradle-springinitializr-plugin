@@ -10,19 +10,19 @@ import java.util.regex.Pattern
 class BootVersionUtils {
 
     private static final String CORE = '\\d+\\.\\d+\\.\\d+'
-    private static final String REGEX = "^${CORE}(?:\\.(?:RELEASE|BUILD-SNAPSHOT|M\\d+)|-(?:RELEASE|SNAPSHOT|M\\d+))?\$"
+    private static final String REGEX = "^${CORE}(?:\\.(?:RELEASE|BUILD-SNAPSHOT|M\\d+|RC\\d+)|-(?:RELEASE|SNAPSHOT|M\\d+|RC\\d+))?\$"
 
     private static final Pattern SNAPSHOT_DASH = Pattern.compile('-SNAPSHOT$')
     private static final Pattern SNAPSHOT_DOT = Pattern.compile('\\.BUILD-SNAPSHOT$')
-    private static final Pattern MILESTONE_DASH = Pattern.compile('-(M\\d+)$')
-    private static final Pattern MILESTONE_DOT = Pattern.compile('\\.(M\\d+)$')
+    private static final Pattern MILESTONE_OR_RC_DASH = Pattern.compile('-(M\\d+|RC\\d+)$')
+    private static final Pattern MILESTONE_OR_RC_DOT = Pattern.compile('\\.(M\\d+|RC\\d+)$')
 
     static String sanitize(String version) {
         String v = version == null ? null : version.trim()
         if (v != null && v.matches(REGEX)) {
             return v
         }
-        throw new InvalidUserDataException("Invalid Spring Boot version '$version'. Expected x.y.z[.RELEASE|.M<N>|.BUILD-SNAPSHOT] or x.y.z[-M<N>|-SNAPSHOT].")
+        throw new InvalidUserDataException("Invalid Spring Boot version '$version'. Expected x.y.z[.RELEASE|.M<N>|.RC<N>|.BUILD-SNAPSHOT] or x.y.z[-M<N>|-RC<N>|-SNAPSHOT].")
     }
 
     static String toInitializr(String version) {
@@ -40,7 +40,7 @@ class BootVersionUtils {
             return out
         }
 
-        out = replaceIfMatches(version, MILESTONE_DASH, '.$1')
+        out = replaceIfMatches(version, MILESTONE_OR_RC_DASH, '.$1')
         if (out != null) {
             return out
         }
@@ -62,7 +62,7 @@ class BootVersionUtils {
             return out
         }
 
-        out = replaceIfMatches(version, MILESTONE_DOT, '-$1')
+        out = replaceIfMatches(version, MILESTONE_OR_RC_DOT, '-$1')
         if (out != null) {
             return out
         }

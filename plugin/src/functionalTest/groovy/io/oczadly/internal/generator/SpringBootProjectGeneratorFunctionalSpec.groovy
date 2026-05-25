@@ -59,7 +59,7 @@ class SpringBootProjectGeneratorFunctionalSpec extends Specification {
         then:
         FilesTestUtils.zipFileExistsAndNotEmpty outputZip
         FilesTestUtils.projectFilesExist unzipDir, 'build.gradle.kts'
-        FilesTestUtils.projectFilesExist unzipDir, 'src/main/kotlin/io/oczadly/myspringapp/DemoApplication.kt'
+        FilesTestUtils.projectFilesExist unzipDir, 'src/main/kotlin/io/oczadly/myspringapp/MyspringappApplication.kt'
     }
 
     def 'generate should only download project without extracting'() {
