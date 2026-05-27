@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/paweloczadly/gradle-springinitializr-plugin/compare/v1.0.2...v1.0.3) (2026-05-27)
+
+
+### Bug Fixes
+
+* **deps:** update gradle-dependencies ([#13](https://github.com/paweloczadly/gradle-springinitializr-plugin/issues/13)) ([0ff3529](https://github.com/paweloczadly/gradle-springinitializr-plugin/commit/0ff35292da4b9e10ef53ed0c5193e3d63a8f886a))
+
 ## [1.0.2](https://github.com/paweloczadly/gradle-springinitializr-plugin/compare/v1.0.1...v1.0.2) (2026-05-25)
 
 
