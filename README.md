@@ -35,7 +35,7 @@ plugins {
 
 ## ⚡ Usage
 
-Inspired by the interactive UX of `gradle init`, this task walks you through Spring Initializr options — directly in your terminal.
+Inspired by the interactive UX of `gradle init`, this task walks you through Spring Initializr options, directly in your terminal.
 
 <img src="docs/images/demo.gif" alt="Demo of gradle-springinitializr-plugin" width="75%" height="75%" />
 
