@@ -1,5 +1,5 @@
 [versions]
-codenarc = '3.7.0-groovy-4.0'
+codenarc = '3.7.0'
 initializr = '0.24.0'
 jacoco = '0.8.15'
 spock = '2.3-groovy-4.0'
