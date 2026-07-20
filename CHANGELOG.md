@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/paweloczadly/gradle-springinitializr-plugin/compare/v1.0.4...v1.0.5) (2026-07-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency codenarc to v4 ([#25](https://github.com/paweloczadly/gradle-springinitializr-plugin/issues/25)) ([1e23cb4](https://github.com/paweloczadly/gradle-springinitializr-plugin/commit/1e23cb477e802a86d843fd9cfbca45df6e4b6a2c))
+
 ## [1.0.4](https://github.com/paweloczadly/gradle-springinitializr-plugin/compare/v1.0.3...v1.0.4) (2026-06-08)
 
 
