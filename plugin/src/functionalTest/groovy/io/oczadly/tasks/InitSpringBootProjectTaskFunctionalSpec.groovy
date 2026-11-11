@@ -93,7 +93,7 @@ plugins {
 
     def 'initSpringBootProject uses correct groupId, artifactId, projectName, projectDescription, packageName, packaging, javaVersion and dependencies'() {
         given:
-        def additionalDependencies = 'activemq, amqp'
+        def additionalDependencies = 'activemq, lombok'
         def expectedDependencies = additionalDependencies.split(', ').collect { dep -> "implementation 'org.springframework.boot:spring-boot-starter-$dep'" }
         def generatedProjectDir = new File(testProjectDir, unzipDirName)
         def projectName = 'spring-initializr'
